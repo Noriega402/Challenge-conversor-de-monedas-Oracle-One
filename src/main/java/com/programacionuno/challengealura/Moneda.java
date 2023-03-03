@@ -8,6 +8,12 @@ package com.programacionuno.challengealura;
  *
  * @author Daniel Noriega
  */
-public class Moneda {
+public class Moneda extends Object{
+    private double dinero;
+    private double conversor;
     
+    public Moneda(){
+        this.dinero = 0.00;
+        this.conversor = 0.00;
+    }
 }

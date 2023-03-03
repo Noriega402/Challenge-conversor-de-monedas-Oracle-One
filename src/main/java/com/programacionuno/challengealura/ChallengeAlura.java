@@ -12,6 +12,8 @@ package com.programacionuno.challengealura;
 public class ChallengeAlura {
 
     public static void main(String[] args) {
+        Componentes ct = new Componentes();
         
+        ct.menu();
     }
 }

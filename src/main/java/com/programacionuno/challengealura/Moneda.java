@@ -5,9 +5,9 @@ package com.programacionuno.challengealura;
  * @author Daniel Noriega
  */
 public class Moneda extends Object{
-    private float dinero;
-    private float conversor;
-    private float valor;
+    private double dinero;
+    private double conversor;
+    private double valor;
     private boolean divide;
     
     public Moneda(){
@@ -25,24 +25,24 @@ public class Moneda extends Object{
         this.divide = dividir;
     }
     
-    public float getValor(){
+    public double getValor(){
         return this.valor;
     }
     
-    public void setValor(float valor){
+    public void setValor(double valor){
         this.valor = valor;
     }
     
-    public float getDinero(){
+    public double getDinero(){
         return this.dinero;
     }
     
-    public void setDinero(float dinero){
+    public void setDinero(double dinero){
         this.dinero = dinero;
     }
     
-    public float getConversor(){
-        if(divide) this.conversor = Math.round((this.dinero/this.valor) * 100d);
+    public double getConversor(){
+        if(divide) this.conversor = this.dinero/this.valor;
         else this.conversor = this.dinero*this.valor;
         
         return this.conversor;

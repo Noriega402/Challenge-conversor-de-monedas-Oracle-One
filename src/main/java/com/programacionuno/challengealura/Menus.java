@@ -1,6 +1,7 @@
 package com.programacionuno.challengealura;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -17,6 +18,11 @@ public class Menus {
     String[] conversionTemp = {"Kelvin a Celcius", "Kelvin a Fahrenheit", "Fahrenheit a Celcius",
         "Fahrenheit a Kelvin", "Celcius a Kelvin", "Celcius a Fahrenheit"};
 
+    String[] conversionMedida = {"mts a mm", "mts a cm", "mts a km",
+        "mts a plg", "cm a mm", "cm a mts", "cm a km", "cm a plg",
+        "km a mm", "km a cm", "km a mts", "km a plg"
+    };
+
     public void terminarPrograma() {
         int terminar = JOptionPane.showConfirmDialog(null, "¿Deseas finalizar el programa?", "Finalizar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (terminar == 0) {
@@ -29,10 +35,16 @@ public class Menus {
 
     public void regresarMenuPrincipal(int tipoMenu) {
         int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres regresar al menu principal?", "Regresar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, icon.icon);
-        if (opcion == 0) menu();
-        
-        if(tipoMenu == 0) menuMonedas();
-        if(tipoMenu == 1) menuTemperatura();
+        if (opcion == 0) {
+            menu();
+        }
+
+        if (tipoMenu == 0) {
+            menuMonedas();
+        }
+        if (tipoMenu == 1) {
+            menuTemperatura();
+        }
     }
 
     public void continuarPrograma() {
@@ -67,9 +79,10 @@ public class Menus {
                     break;
                 case "Convertir medidas de longitud":
                     JOptionPane.showMessageDialog(null, "Elegiste convertir medidas", titulo, JOptionPane.QUESTION_MESSAGE, icon.medida);
+                    menuMedidas();
                     break;
                 default:
-                    throw new AssertionError("Error al seleccionar una opcion");
+                    JOptionPane.showMessageDialog(null, "Ocurrio un error en el programa", "Error", 0, icon.error);
             }
         }
     }
@@ -92,7 +105,7 @@ public class Menus {
                 JOptionPane.showMessageDialog(null, "El valor debe ser un numero...", "Error", 0, icon.error);
             }
         } while (validar);
-        
+
         terminarPrograma();
     }
 
@@ -109,13 +122,13 @@ public class Menus {
                 break;
             case 1:
                 temp.setKelvin(valor);
-                process = ((((9 * temp.getKelvin()) - 273.15) / 5)) + 32;
+                process = ((temp.getKelvin() * 9) / 5) - 459.67;
                 temp.setResultadoTemp(process);
                 JOptionPane.showMessageDialog(null, "La temperatura es de " + temp.getResultadoTemp() + " Fahrenheit", title, 0, icon.temp);
                 break;
             case 2:
                 temp.setFahrenheit(valor);
-                process = ((5 - (temp.getFahrenheit() - 32))) / 9;
+                process = ((temp.getFahrenheit() - 32) * 5) / 9;
                 temp.setResultadoTemp(process);
                 JOptionPane.showMessageDialog(null, "La temperatura es de " + temp.getResultadoTemp() + " Celcius", title, 0, icon.temp);
                 break;
@@ -171,22 +184,21 @@ public class Menus {
                     cambioTemperatura(5, titulo);
                     break;
                 default:
-                    throw new AssertionError();
+                    JOptionPane.showMessageDialog(null, "Ocurrio un error", "Error", 0, icon.error);
             }
         }
     }
 
-    public void mostarConversion(float valor, int titulo, String tMoneda, boolean opcion) {
+    public void mostarConversion(double valor, int titulo, String tMoneda, boolean opcion) {
         boolean validar = true;
         Moneda cambio = new Moneda();
-        double resultado;
-        float dinero;
+        double resultado, dinero;
         cambio.setValor(valor);
         cambio.setIsDivide(opcion);
 
         do {
             try {
-                dinero = Float.parseFloat(JOptionPane.showInputDialog(null, "Digite el monto", conversiones[titulo], 1));
+                dinero = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite el monto", conversiones[titulo], 1));
                 cambio.setDinero(dinero);
                 resultado = cambio.getConversor();
                 JOptionPane.showMessageDialog(null, "Tienes " + resultado + tMoneda, conversiones[titulo], 0, icon.icon);
@@ -218,43 +230,124 @@ public class Menus {
         } else {
             switch (opciones) {
                 case "Quetzal a Dolar":
-                    mostarConversion(0.1280f, 0, " dolares", true);
+                    mostarConversion(0.1280, 0, " dolares", false);
                     break;
                 case "Quetzal a Euro":
-                    mostarConversion(0.1204f, 1, " euros", false);
+                    mostarConversion(0.1204, 1, " euros", false);
                     break;
                 case "Quetzal a Libra":
-                    mostarConversion(0.1063f, 2, " libras", false);
+                    mostarConversion(0.1063, 2, " libras", false);
                     break;
                 case "Quetzal a Yen":
-                    mostarConversion(17.3798f, 3, " yenes", false);
+                    mostarConversion(17.3798, 3, " yenes", false);
                     break;
                 case "Quetzal a Won Coreano":
-                    mostarConversion(165.97f, 4, " wones", false);
+                    mostarConversion(169.551, 4, " wones", false);
                     break;
                 case "Quetzal a Pesos Mexicanos":
-                    mostarConversion(2.30f, 5, " pesos mexicanos", false);
+                    mostarConversion(2.372, 5, " pesos mexicanos", false);
                     break;
                 case "Dolar a Quetzal":
-                    mostarConversion(7.8147f, 6, " quetzales", false);
+                    mostarConversion(7.8147, 6, " quetzales", false);
                     break;
                 case "Euro a Quetzal":
-                    mostarConversion(8.3191f, 7, " quetzales", false);
+                    mostarConversion(8.3191, 7, " quetzales", false);
                     break;
                 case "Libra a Quetzal":
-                    mostarConversion(9.4060f, 8, " quetzales", false);
+                    mostarConversion(9.4060, 8, " quetzales", false);
                     break;
                 case "Yen a Quetzal":
-                    mostarConversion(0.05753f, 9, " quetzales", false);
+                    mostarConversion(0.05753, 9, " quetzales", false);
                     break;
                 case "Won Coreano a Quetzal":
-                    mostarConversion(0.006025f, 10, " quetzales", false);
+                    mostarConversion(0.006025, 10, " quetzales", false);
                     break;
-                case "Pesos mexicanos a Quetzal":
-                    mostarConversion(0.4348f, 11, " quetzales", false);
+                case "Pesos Mexicanos a Quetzal":
+                    mostarConversion(0.4348, 11, " quetzales", false);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Ocurrio un error", "Error", 2, icon.error);
+            }
+        }
+    }
+
+    public void convertirLongitud(int index, boolean dividir, double conversion, String valor) {
+        Longitudes longitud = new Longitudes();
+        double medida, resultado;
+        boolean validar = true;
+        longitud.setDivisible(dividir);
+        do {
+            try {
+                medida = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite la medida", conversionMedida[index], 1));
+                longitud.setMedida(medida);
+                longitud.setResultadoMedida(longitud.getMedida(), conversion);
+                resultado = longitud.getResultadoMedida();
+                JOptionPane.showMessageDialog(null, "Son " + resultado + valor, conversionMedida[index], 0, icon.icon);
+                validar = false;
+                terminarPrograma();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "El valor debe ser un numero...", "Error", 0, icon.error);
+            } catch (NullPointerException e) {
+                int regresar = JOptionPane.showConfirmDialog(null, "¿Deseas regresar al submenu?", "Regresar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                if (regresar == 0) {
+                    validar = false;
+                    menuMedidas();
+                }
+            }
+        } while (validar);
+        
+        terminarPrograma();
+    }
+
+    public void menuMedidas() {
+        String titulo = "Conversion de Longitud";
+        String mensaje = "Selecciona un tipo de conversion de medida de longitud";
+        String opciones = (String) JOptionPane.showInputDialog(null, mensaje, titulo,
+                JOptionPane.QUESTION_MESSAGE, icon.coin, conversionMedida, conversionMedida[0]);
+        if (opciones == null) {
+            regresarMenuPrincipal(0);
+        } else {
+            System.out.println(opciones);
+            switch (opciones) {
+                case "mts a mm":
+                    convertirLongitud(0, false, 1000, " milimetros");
+                    break;
+                case "mts a cm":
+                    convertirLongitud(1, false, 100, " centimetros");
+                    break;
+                case "mts a km":
+                    convertirLongitud(2, true, 1000, " kilometros");
+                    break;
+                case "mts a plg":
+                    convertirLongitud(3, false, 39.37, " pulgadas");
+                    break;
+                case "cm a mm":
+                    convertirLongitud(4, false, 10, " milimetros");
+                    break;
+                case "cm a mts":
+                    convertirLongitud(5, true, 0.01, " metros");
+                    break;
+                case "cm a km":
+                    convertirLongitud(6, true, 100000, " kilomemtros");
+                    break;
+                case "cm a plg":
+                    convertirLongitud(7, true, 0.3937, " pulgadas");
+                    break;
+                case "km a mm":
+                    convertirLongitud(8, false, 1000000, " milimetros");
+                    break;
+                case "km a cm":
+                    convertirLongitud(9, false, 100000, " centimetros");
+                    break;
+                case "km a mts":
+                    convertirLongitud(10, false, 1000, " metros");
+                    break;
+                case "km a plg":
+                    convertirLongitud(11, false, 39370.08, " pulgadas");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Ocurrio un error de opcion", "Error", 0, icon.error);
             }
         }
     }
